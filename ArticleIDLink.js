@@ -26,22 +26,22 @@
 jQuery(function($)
 {
 	// メッセージ追加
-	mw.messages.set("articleidlink-link", "記事IDでのリンク");
+	mw.messages.set({
+		"articleidlink-label"  : "ページ番号でリンク",
+		"articleidlink-tooltip": "ページ番号(curid)でのリンクを取得"
+	});
 	
-	// 版への固定リンクを取得し、取得できていれば
-	var $permalink = $("#t-permalink");
-	if($permalink)
+	// 版固定リンクが存在していれば
+	if($("#t-permalink").length > 0)
 	{
-		// 固定リンクの次に記事IDでのリンクを追加
-		$permalink.after($("<li />")
-			.attr("id", "t-artcileidlink")
-			.append($("<a />")
-				.attr({
-					title: mw.msg("articleidlink-link"),
-					href: "/wiki/?curid=" + mw.config.get("wgArticleId")
-				})
-				.text("記事IDでのリンク")
-			)
-		);
+		// 版固定リンクの前にリンクを追加
+		mw.util.addPortletLink(
+			"p-tb",
+			"/wiki/?curid=" + mw.config.get("wgArticleId"),
+			mw.msg("articleidlink-label"),
+	  		"t-artcileidlink",
+			mw.msg("articleidlink-tooltip"),
+			null,
+			"#t-permalink");
 	}
 });
